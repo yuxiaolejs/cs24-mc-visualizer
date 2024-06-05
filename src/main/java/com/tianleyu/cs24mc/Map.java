@@ -22,7 +22,9 @@ public class Map {
     }
 
     public String parse() {
-
+        if (lines == null) {
+            return "Input file not found";
+        }
         String dimLine = lines.get(0);
         String[] dims = dimLine.trim().split("\\s+");
         if (dims.length != 3) {

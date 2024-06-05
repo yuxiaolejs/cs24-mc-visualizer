@@ -69,6 +69,14 @@ public class CSPlugin extends JavaPlugin {
                 return true;
             }
 
+            if (args[0].equals("coord")) {
+                player.sendMessage(msgPrefix
+                        + "Finding co0rd.");
+                player.sendMessage(msgPrefix
+                        + Map.findCoord(base));
+                return true;
+            }
+
             Map m1 = new Map(args[0]);
             String res = m1.parse();
             if (!res.equals("OK")) {
@@ -87,6 +95,7 @@ public class CSPlugin extends JavaPlugin {
                 // base.getBlock().setType(Material.STONE); // Change to desired block type
                 // base.add(0, 0, 1);
             }
+            m1.putSigns(player.getLocation());
             player.sendMessage(msgPrefix + "Map creation complete.");
             return true;
         } else {

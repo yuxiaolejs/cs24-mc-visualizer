@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.sign.SignSide;
 
 public class Map {
     private List<String> lines;
@@ -80,5 +86,53 @@ public class Map {
             }
         }
         return output;
+    }
+
+    public void createSignWithText(Location location, String text, BlockFace face) {
+        location.getBlock().setType(Material.OAK_SIGN);
+        Sign sign = (Sign) location.getBlock().getState();
+        SignSide s = sign.getSide(org.bukkit.block.sign.Side.FRONT);
+        s.setLine(0, text);
+        BlockData dt = sign.getBlockData();
+        ((Rotatable) dt).setRotation(face);
+        sign.setBlockData(dt);
+        sign.update();
+    }
+
+    public void putSigns(Location location) {
+        // location.getBlock().setType(Material.OAK_SIGN);
+        // Sign sign = (Sign) location.getBlock().getState();
+        // SignSide s = sign.getSide(org.bukkit.block.sign.Side.FRONT);
+        // s.setLine(0, "Hello");
+        // BlockData dt = sign.getBlockData();
+        // ((Rotatable) dt).setRotation(BlockFace.NORTH);
+        // sign.setBlockData(dt);
+        // sign.update();
+
+        // set Beacon
+        location.getBlock().setType(Material.BEACON);
+        location.getBlock().getRelative(-1, -1, -1).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(-1, -1, 0).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(-1, -1, 1).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(0, -1, -1).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(0, -1, 0).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(0, -1, 1).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(1, -1, -1).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(1, -1, 0).setType(Material.GOLD_BLOCK);
+        location.getBlock().getRelative(1, -1, 1).setType(Material.GOLD_BLOCK);
+
+        createSignWithText(location.add(0, 1, 0), "<-X Y->", BlockFace.NORTH_WEST);
+        for (int x = 1; x <= sizeX; x++) {
+            Location offseted = location.clone().add(x, 0, 0);
+            createSignWithText(offseted, "X: " + (x - 1), BlockFace.NORTH);
+        }
+        for (int y = 1; y <= sizeY; y++) {
+            Location offseted = location.clone().add(0, 0, y);
+            createSignWithText(offseted, "Y: " + (y - 1), BlockFace.WEST);
+        }
+    }
+
+    public static String findCoord(Location loc) {
+        return "Not there yet!";
     }
 }

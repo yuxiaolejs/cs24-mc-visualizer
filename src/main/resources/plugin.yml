@@ -1,0 +1,7 @@
+name: 'CoolPlugin'
+version: '1.0.0'
+main: com.tianleyu.cs24mc.CSPlugin
+api-version: '1.17'
+commands:
+  cs24:
+    description: the cs24 cmd

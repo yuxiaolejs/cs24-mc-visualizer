@@ -133,6 +133,13 @@ public class Map {
     }
 
     public static String findCoord(Location loc) {
+        for (int xOff = 0; xOff < 1000; xOff++)
+            for (int zOff = -100; zOff < 100; zOff++)
+                for (int yOff = 0; yOff < 1000; yOff++)
+                    if (loc.clone().subtract(xOff, zOff, yOff).getBlock().getType() == Material.BEACON)
+                        return "The block under your have coord of X: " + (xOff - 1) + ", Y: " + (yOff - 1) + ", Z: "
+                                + (zOff - 1)
+                                + "\n      (" + (xOff - 1) + ", " + (yOff - 1) + ", " + (zOff - 1) + ")";
         return "Not there yet!";
     }
 }

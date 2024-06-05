@@ -60,6 +60,15 @@ public class CSPlugin extends JavaPlugin {
                 return true;
             }
 
+            if (args[0].equals("route")) {
+                player.sendMessage(msgPrefix
+                        + "Finding Route.");
+                Route r1 = new Route(base);
+                player.sendMessage(msgPrefix
+                        + r1.explore());
+                return true;
+            }
+
             Map m1 = new Map(args[0]);
             String res = m1.parse();
             if (!res.equals("OK")) {

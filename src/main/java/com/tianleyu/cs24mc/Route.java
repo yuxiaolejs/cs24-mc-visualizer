@@ -63,7 +63,7 @@ public class Route {
             if (east.getBlock().getType() == Material.STONE
                     && (east.getBlock().getRelative(0, 1, 0).getType() == Material.AIR ||
                             east.getBlock().getRelative(0, 1, 0).getType() == Material.REDSTONE_TORCH)) {
-                east.getBlock().setType(Material.GREEN_WOOL);
+                east.getBlock().setType(Material.LIGHT_BLUE_WOOL);
                 queue.add(east);
                 prev.put(east, curr);
             }
@@ -71,7 +71,7 @@ public class Route {
             if (west.getBlock().getType() == Material.STONE
                     && (west.getBlock().getRelative(0, 1, 0).getType() == Material.AIR ||
                             west.getBlock().getRelative(0, 1, 0).getType() == Material.REDSTONE_TORCH)) {
-                west.getBlock().setType(Material.GREEN_WOOL);
+                west.getBlock().setType(Material.LIGHT_BLUE_WOOL);
                 queue.add(west);
                 prev.put(west, curr);
             }
@@ -79,7 +79,7 @@ public class Route {
             if (south.getBlock().getType() == Material.STONE
                     && (south.getBlock().getRelative(0, 1, 0).getType() == Material.AIR ||
                             south.getBlock().getRelative(0, 1, 0).getType() == Material.REDSTONE_TORCH)) {
-                south.getBlock().setType(Material.GREEN_WOOL);
+                south.getBlock().setType(Material.LIGHT_BLUE_WOOL);
                 queue.add(south);
                 prev.put(south, curr);
             }
@@ -87,7 +87,7 @@ public class Route {
             if (north.getBlock().getType() == Material.STONE
                     && (north.getBlock().getRelative(0, 1, 0).getType() == Material.AIR ||
                             north.getBlock().getRelative(0, 1, 0).getType() == Material.REDSTONE_TORCH)) {
-                north.getBlock().setType(Material.GREEN_WOOL);
+                north.getBlock().setType(Material.LIGHT_BLUE_WOOL);
                 queue.add(north);
                 prev.put(north, curr);
             }
@@ -189,13 +189,13 @@ public class Route {
                 }
             }
 
-            Chunk chunk = curr.getChunk();
-            curr.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // Chunk chunk = curr.getChunk();
+            // curr.getWorld().refreshChunk(chunk.getX(), chunk.getZ());
+            // try {
+            //     Thread.sleep(100);
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
         }
 
         // Backtrack

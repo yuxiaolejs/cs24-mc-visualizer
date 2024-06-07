@@ -1,6 +1,7 @@
 package com.tianleyu.cs24mc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -40,6 +41,8 @@ public class CSPlugin extends JavaPlugin {
         // for (int i = 0; i < args.length; i++) {
         // getLogger().info("WITH ARG: " + args[i]);
         // }
+        if (cmd.getName().equalsIgnoreCase("astar"))
+            return astarCommand(sender, cmd, label, args);
         if (args.length < 1) {
             sender.sendMessage("Wrong usage, use /cs24 <your-file>");
             return true;
@@ -48,6 +51,8 @@ public class CSPlugin extends JavaPlugin {
             Player player = (Player) sender;
             Location base = player.getLocation();
             World curr = base.getWorld();
+
+            curr.getUID().toString();
 
             player.sendMessage(header);
 
@@ -102,5 +107,99 @@ public class CSPlugin extends JavaPlugin {
             sender.sendMessage(msgPrefix + "This command can only be used by a player.");
             return false;
         }
+    }
+
+    HashMap<Player, AStar> astarMap = new HashMap<Player, AStar>();
+
+    private boolean astarCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("This command can only be used by a player.");
+            return false;
+        }
+        Player player = (Player) sender;
+        if (args.length < 1) {
+            sender.sendMessage("Usage: /astar <action>, where action can be: ");
+            sender.sendMessage("  reset: reset the AStar instance for you.");
+            sender.sendMessage("  start: set the start point for AStar.");
+            sender.sendMessage("  end: set the end point for AStar.");
+            sender.sendMessage("  run: run the AStar algorithm.");
+            sender.sendMessage("  step: run the AStar algorithm step by step.");
+            return true;
+        }
+        // Make sure instance is created for the player
+        if (astarMap.get(player) == null) {
+            astarMap.put(player, new AStar());
+            sender.sendMessage("Creating new AStar instance for you.");
+        }
+
+        // Reset the instance
+        if (args[0].equals("reset")) {
+            astarMap.put(player, new AStar());
+            sender.sendMessage("Resetting AStar instance for you.");
+            return true;
+        }
+
+        AStar astar = astarMap.get(player);
+
+        // Set the start point
+        if (args[0].equals("start")) {
+            try {
+                astar.setStart(player.getLocation());
+            } catch (Exception e) {
+                sender.sendMessage(e.getMessage());
+                return true;
+            }
+            sender.sendMessage("Start point set to your current location.");
+            return true;
+        }
+
+        // Set the end point
+        if (args[0].equals("end")) {
+            astar.setEnd(player.getLocation());
+            sender.sendMessage("End point set to your current location.");
+            return true;
+        }
+
+        if (args[0].equals("height")) {
+            try {
+                astar.setHeight(player.getLocation());
+            } catch (Exception e) {
+                sender.sendMessage(e.getMessage());
+                return true;
+            }
+            return true;
+        }
+
+        // Run one step
+        if (args[0].equals("step")) {
+            int step = 1;
+            if (args.length > 1) {
+                try {
+                    step = Integer.parseInt(args[1]);
+                } catch (NumberFormatException e) {
+                    sender.sendMessage("Invalid step number.");
+                    return true;
+                }
+            }
+            for (int i = 0; i < step; i++) {
+                try {
+                    astar.step();
+                } catch (Exception e) {
+                    sender.sendMessage(e.getMessage());
+                    return true;
+                }
+            }
+            sender.sendMessage("AStar algorithm ran " + step + " step(s).");
+            return true;
+        }
+
+        sender.sendMessage("Usage: /astar <action>, where action can be: ");
+        sender.sendMessage("  reset: reset the AStar instance for you.");
+        sender.sendMessage("  start: set the start point for AStar.");
+        sender.sendMessage("  end: set the end point for AStar.");
+        sender.sendMessage("  run: run the AStar algorithm.");
+        sender.sendMessage("  height: set the highest point the algorithm can stand on.");
+        sender.sendMessage("  step: run the AStar algorithm step by step.");
+        return true;
     }
 }
